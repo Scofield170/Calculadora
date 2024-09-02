@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import org.mariuszgromada.math.mxparser.Expression
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity() {
 
         val btnMultiplicacao = findViewById<Button>(R.id.buttonMultiplicacao)
         btnMultiplicacao.setOnClickListener {
-            TvCalculo.text = "${TvCalculo.text}x"
+            TvCalculo.text = "${TvCalculo.text}*"
         }
 
         val btnDivisao = findViewById<Button>(R.id.buttonDivisao)
@@ -106,7 +107,17 @@ class MainActivity : AppCompatActivity() {
         val btnApagar = findViewById<Button>(R.id.buttonApagar)
         btnApagar.setOnClickListener {
             TvCalculo.text = TvCalculo.text.dropLast(n = 1)
-            TvCalculo.text = "${TvCalculo.text}"
+        }
+
+        val btnIgual = findViewById<Button>(R.id.buttonIgual)
+        btnIgual.setOnClickListener {
+            val resultado = Expression(TvCalculo.text.toString()).calculate()
+
+            if (resultado.isNaN()){
+                TvResultado.text = "ERRO!"
+            }else {
+                TvResultado.text = resultado.toString()
+            }
         }
     }
 }
